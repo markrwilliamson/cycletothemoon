@@ -79,6 +79,16 @@
          font-size:13.5px;color:var(--muted)}
   .bands b{color:var(--ink);font-weight:600}
 
+  .rides{list-style:none;margin:0;padding:0}
+  .rides li{display:grid;grid-template-columns:1fr auto;gap:4px 14px;
+            padding:11px 0;border-top:1px solid var(--line);align-items:baseline}
+  .rides li:first-child{border-top:none;padding-top:2px}
+  .rides .nm{font-size:14.5px;font-weight:500;overflow-wrap:anywhere}
+  .rides .dt{font-size:12.5px;color:var(--muted)}
+  .rides .km{font-size:15px;font-weight:650;white-space:nowrap;
+             font-variant-numeric:tabular-nums;text-align:right}
+  .rides .mn{font-size:12px;color:var(--muted);white-space:nowrap;text-align:right}
+
   .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
   svg{display:block}
   .note{font-size:13px;color:var(--muted);margin-top:14px}
@@ -128,6 +138,11 @@
     <div class="note" id="cumNote"></div>
   </div>
 
+  <div class="panel">
+    <h2>Latest rides</h2>
+    <ul class="rides" id="rides"></ul>
+  </div>
+
   <div class="panel" id="syncPanel" style="padding:14px 18px">
     <div style="font-size:13.5px" id="syncLine"></div>
   </div>
@@ -136,7 +151,7 @@
 </div>
 
 <script>
-var M = {"title":"Cycle to the Moon Challenge","target":384400,"total":168106.66000000024,"remaining":216293.33999999976,"pct":43.73222164412077,"age":52.799560489143566,"avgPerYear":12300.487317073119,"last365":15628.130000000005,"bands":[{"age":52,"rate":15000},{"age":55,"rate":12500},{"age":60,"rate":10000},{"age":65,"rate":7500},{"age":70,"rate":5000},{"age":75,"rate":2500}],"arrivalYears":25.267336000000128,"arrivalAge":78.06689648914204,"arrivalYear":2051.2673360000003,"startYear":2013,"years":[{"year":2013,"km":689,"rides":29},{"year":2014,"km":5363,"rides":211},{"year":2015,"km":8705,"rides":289},{"year":2016,"km":12001,"rides":429},{"year":2017,"km":12097,"rides":444},{"year":2018,"km":13011,"rides":483},{"year":2019,"km":13923,"rides":572},{"year":2020,"km":15002,"rides":433},{"year":2021,"km":15176,"rides":460},{"year":2022,"km":14719,"rides":513},{"year":2023,"km":15157,"rides":537},{"year":2024,"km":16062,"rides":575},{"year":2025,"km":15178,"rides":593},{"year":2026,"km":11023,"rides":397}],"rideCount":5965,"recent":[{"date":"Sat 5 Sep","year":2026,"name":"Random family Wimbledon adventure","km":12.42,"mins":52},{"date":"Fri 4 Sep","year":2026,"name":"IOG short loop with Neil, Grant & Jon. G!ro coffee + rainy extras","km":52.87,"mins":104},{"date":"Thu 3 Sep","year":2026,"name":"Evening Ride","km":2.76,"mins":15},{"date":"Thu 3 Sep","year":2026,"name":"Evening Ride","km":22.46,"mins":56},{"date":"Thu 3 Sep","year":2026,"name":"Lunch Ride","km":25.01,"mins":63},{"date":"Wed 2 Sep","year":2026,"name":"Evening Ride","km":24.59,"mins":61},{"date":"Wed 2 Sep","year":2026,"name":"Lunch Ride","km":23.37,"mins":57},{"date":"Tue 1 Sep","year":2026,"name":"Afternoon Ride","km":22.44,"mins":52},{"date":"Tue 1 Sep","year":2026,"name":"Afternoon Ride","km":25.18,"mins":60},{"date":"Mon 31 Aug","year":2026,"name":"Lausanne morning loop - so beautiful ☀️","km":39.5,"mins":92}],"lastRide":{"date":"Sat 5 Sep 2026","name":"Random family Wimbledon adventure","km":12.42},"lastSync":{"when":"Sat 5 Sep 2026, 16:18","daysAgo":0},"generated":"Sat 5 Sep 2026, 16:26"};
+var M = {"title":"Cycle to the Moon Challenge","target":384400,"total":168106.66000000024,"remaining":216293.33999999976,"pct":43.73222164412077,"age":52.79958746681238,"avgPerYear":12300.487317073119,"last365":15628.130000000005,"bands":[{"age":52,"rate":15000},{"age":55,"rate":12500},{"age":60,"rate":10000},{"age":65,"rate":7500},{"age":70,"rate":5000},{"age":75,"rate":2500}],"arrivalYears":25.267336000000128,"arrivalAge":78.06692346681085,"arrivalYear":2051.2673360000003,"startYear":2013,"years":[{"year":2013,"km":689,"rides":29},{"year":2014,"km":5363,"rides":211},{"year":2015,"km":8705,"rides":289},{"year":2016,"km":12001,"rides":429},{"year":2017,"km":12097,"rides":444},{"year":2018,"km":13011,"rides":483},{"year":2019,"km":13923,"rides":572},{"year":2020,"km":15002,"rides":433},{"year":2021,"km":15176,"rides":460},{"year":2022,"km":14719,"rides":513},{"year":2023,"km":15157,"rides":537},{"year":2024,"km":16062,"rides":575},{"year":2025,"km":15178,"rides":593},{"year":2026,"km":11023,"rides":397}],"rideCount":5965,"recent":[{"date":"Sat 5 Sep","year":2026,"name":"Random family Wimbledon adventure","km":12.42,"mins":52},{"date":"Fri 4 Sep","year":2026,"name":"IOG short loop with Neil, Grant & Jon. G!ro coffee + rainy extras","km":52.87,"mins":104},{"date":"Thu 3 Sep","year":2026,"name":"Evening Ride","km":2.76,"mins":15},{"date":"Thu 3 Sep","year":2026,"name":"Evening Ride","km":22.46,"mins":56},{"date":"Thu 3 Sep","year":2026,"name":"Lunch Ride","km":25.01,"mins":63},{"date":"Wed 2 Sep","year":2026,"name":"Evening Ride","km":24.59,"mins":61},{"date":"Wed 2 Sep","year":2026,"name":"Lunch Ride","km":23.37,"mins":57},{"date":"Tue 1 Sep","year":2026,"name":"Afternoon Ride","km":22.44,"mins":52},{"date":"Tue 1 Sep","year":2026,"name":"Afternoon Ride","km":25.18,"mins":60},{"date":"Mon 31 Aug","year":2026,"name":"Lausanne morning loop - so beautiful ☀️","km":39.5,"mins":92}],"lastRide":{"date":"Sat 5 Sep 2026","name":"Random family Wimbledon adventure","km":12.42},"lastSync":{"when":"Sat 5 Sep 2026, 16:26","daysAgo":0},"generated":"Sat 5 Sep 2026, 16:40"};
 
 function fmt(n,d){ d = d||0;
   return Number(n).toLocaleString('en-GB',{minimumFractionDigits:d,maximumFractionDigits:d}); }
@@ -338,14 +353,29 @@ function css(v){ return getComputedStyle(document.documentElement).getPropertyVa
 
  
 (function(){
+  var el = document.getElementById('rides');
+  if (!M.recent || !M.recent.length){ el.innerHTML = '<li>No rides logged yet.</li>'; return; }
+  el.innerHTML = M.recent.map(function(r){
+    var hrs = Math.floor(r.mins/60), mins = r.mins%60;
+    var dur = hrs ? hrs+'h '+(mins<10?'0':'')+mins+'m' : r.mins+'m';
+    return '<li><div><div class="nm">'+
+           String(r.name).replace(/[<>&]/g, function(c){
+             return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]; })+
+           '</div><div class="dt">'+r.date+' '+r.year+'</div></div>'+
+           '<div><div class="km">'+fmt(r.km,1)+' km</div>'+
+           '<div class="mn">'+dur+'</div></div></li>';
+  }).join('');
+})();
+
+ 
+(function(){
   var p = document.getElementById('syncPanel'), l = document.getElementById('syncLine');
   if (!M.lastSync){ p.className='panel warn'; l.textContent='No successful sync recorded yet.'; return; }
   if (M.lastSync.daysAgo > 7){
     p.className='panel warn';
     l.textContent='Sync warning: last successful update was '+M.lastSync.when+', '+M.lastSync.daysAgo+' days ago.';
   } else {
-    l.innerHTML = 'Synced from Strava '+M.lastSync.when+'.' +
-      (M.lastRide? ' Last ride: <b>'+M.lastRide.name+'</b>, '+fmt(M.lastRide.km,1)+' km on '+M.lastRide.date+'.' : '');
+    l.innerHTML = 'Synced from Strava '+M.lastSync.when+'. Updates automatically every hour.';
   }
 })();
 
